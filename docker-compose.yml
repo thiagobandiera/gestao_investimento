@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  #gestao_investimento-mysql
+  gestao_investimento-mysql:
+      container_name: gestao_investimento-mysql
+      image: mysql:8.0.35
+      restart: unless-stopped
+      environment: 
+          MYSQL_DATABASE: gestao_investimento
+          MYSQL_ROOT_PASSWORD: tbandiera123
+          MYSQL_PASSWORD: tbandiera123
+          MYSQL_USER: tbandiera
+      volumes: 
+          - ./.docker/mysql/dbdata:/var/lib/mysql
+      ports: 
+          - "3384:3306"
+      networks: 
+          - gestao_investimento-api
+
+  #gestao_investimento-redis
+  redis:
+    image: redis
+    container_name: gestao_investimento-redis
+    restart: unless-stopped
+    ports:
+      - "6381:6379"
+    networks:
+      - gestao_investimento-api
+         
+networks:
+  gestao_investimento-api:
+    driver: bridge
